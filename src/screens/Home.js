@@ -7,7 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
+import { Button, Text, Content } from 'native-base';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -17,13 +18,16 @@ const instructions = Platform.select({
 });
 
 export default class Home extends Component {
+  static navigationOptions = {
+    title: 'Home'
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>CoolWelcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <Content>
+        <Text style={styles.welcome}>Home</Text>
+        <Button onPress={()=>this.props.navigation.navigate('StartActivity')}><Text>Go to Start</Text></Button>
+        </Content>
     );
   }
 }
