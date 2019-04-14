@@ -57,7 +57,6 @@ export default class StartActivity extends Component {
           .then(results => {
             weather = results.weather[0].main;
             var K = results.main.temp;
-            console.log(K);
             temp = Math.round((K - 273.15) * 1.8000 + 32.00);
             this.setState((prevState, prop) => {
               return {

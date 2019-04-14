@@ -6,8 +6,8 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
 import { Button, Text, Content } from 'native-base';
 
 const instructions = Platform.select({
@@ -18,16 +18,71 @@ const instructions = Platform.select({
 });
 
 export default class DuringActivity extends Component {
+  interval = null;
+
   static navigationOptions = {
     title: 'DuringActivity'
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      active: true,
+      timer: 0
+    }
+  }
+
+  setUpTimer() {
+    interval = setInterval(this.myTimer, 1000)
+  }
+
+  pauseResume(){
+    if(this.state.active){
+      clearInterval(interval);
+    } else {
+      this.setUpTimer();
+    }
+    this.setState((prevState, props) => {
+      return{
+        active:!prevState.active
+      }
+    });
+  }
+
+  myTimer = () => {
+    this.setState((prevState, props) => {
+      return {
+        timer: prevState.timer + 1
+      }
+    });
+  }
+
+  componentWillMount() {
+    this.setState({ timer: 0 });
+    this.setUpTimer();
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   render() {
     return (
       <Content>
         <Text style={styles.welcome}>DuringActivity</Text>
-        <Button onPress={()=>this.props.navigation.navigate('AfterActivity')}><Text>Go to map</Text></Button>
-        </Content>
+        <Text style={styles.welcome}>{this.state.timer}</Text>
+        <Button onPress={() => {clearInterval(interval);this.props.navigation.navigate('AfterActivity');}}>
+          <Text>
+            Finish Activity
+          </Text>
+        </Button>
+        <Button onPress={() => this.pauseResume()}>
+          <Text>
+            Pause
+          </Text>
+        </Button>
+      </Content>
     );
   }
 }
