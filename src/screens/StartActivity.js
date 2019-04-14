@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Dimensions } from 'react-native';
-import { Button, Text, Content, Card, CardItem, Container, ListItem, Left,Right,Radio } from 'native-base';
+import { Button, Text, Content, Card, CardItem, Container, ListItem, Left, Right, Radio } from 'native-base';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 
 import WeatherService from '../api/weather.service';
@@ -32,6 +32,7 @@ export default class StartActivity extends Component {
         longitudeDelta: 0.0121,
       },
       weather: '',
+      temp: 0,
       selected: 'key1',
     }
   }
@@ -55,6 +56,9 @@ export default class StartActivity extends Component {
         WeatherService.getWeather(latitude, longitude)
           .then(results => {
             weather = results.weather[0].main;
+            var K = results.main.temp;
+            console.log(K);
+            temp = Math.round((K - 273.15) * 1.8000 + 32.00);
             this.setState((prevState, prop) => {
               return {
                 region: {
@@ -63,7 +67,8 @@ export default class StartActivity extends Component {
                   latitudeDelta: 0.0522,
                   longitudeDelta: 0.0221,
                 },
-                weather: weather
+                weather: weather,
+                temp: temp
               }
             });
           }).catch(error => {
@@ -84,6 +89,7 @@ export default class StartActivity extends Component {
     return (
       <Container style={styles.container}>
         <MapView
+          liteModes
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           initialRegion={this.state.region} //use this instead of region prop
@@ -101,16 +107,15 @@ export default class StartActivity extends Component {
             </Callout>
           </Marker>
         </MapView>
-        <Content>
-        <Text >Start Activity</Text>
-        <Button onPress={() => { this.findCurrentLocation() }}><Text>Check Location</Text></Button>
-        <Text>{this.state.region.latitude}</Text>
-        <Text>{this.state.region.longitude}</Text>
-        <Text>{this.state.weather}</Text>
-        <Button onPress={() => this.props.navigation.navigate('DuringActivity')}><Text>Go to During</Text></Button>
-
-            <PickerWI/>
-          </Content>
+        <Content style={{ top: (height / 2) - 50 }}>
+          <Text>Pick a type of activity</Text>
+          <PickerWI />
+          <Text>Current Weather: {this.state.weather}</Text>
+          <Text>Current Tempature: {this.state.temp} °F{'\n'}</Text>
+          <Button onPress={() => this.props.navigation.navigate('DuringActivity')}>
+            <Text>Start Activity</Text>
+          </Button>
+        </Content>
       </Container>
     );
   }
@@ -126,8 +131,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    // justifyContent: 'flex-start',
+    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

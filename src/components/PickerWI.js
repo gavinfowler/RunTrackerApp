@@ -20,15 +20,12 @@ export default class PickerWithIcon extends Component {
               mode="dropdown"
               iosHeader="Select your SIM"
               iosIcon={<Icon name="arrow-down" />}
-              style={{ width: undefined }}
               selectedValue={this.state.selected}
               onValueChange={this.onValueChange.bind(this)}
             >
-              <Picker.Item label="Wallet" value="key0" />
-              <Picker.Item label="ATM Card" value="key1" />
-              <Picker.Item label="Debit Card" value="key2" />
-              <Picker.Item label="Credit Card" value="key3" />
-              <Picker.Item label="Net Banking" value="key4" />
+              <Picker.Item label="Run" value="key0" />
+              <Picker.Item label="Jog" value="key1" />
+              <Picker.Item label="Walk" value="key2" />
             </Picker>
           </Form>
     );
