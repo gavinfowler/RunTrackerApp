@@ -7,18 +7,14 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
-import { Button, Text, Content, Card, CardItem } from 'native-base';
+import { Platform, StyleSheet, View, Dimensions } from 'react-native';
+import { Button, Text, Content, Card, CardItem, Container, ListItem, Left,Right,Radio } from 'native-base';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
 
 import WeatherService from '../api/weather.service';
+import PickerWI from '../components/PickerWI'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const { width, height } = Dimensions.get('window');
 
 export default class StartActivity extends Component {
   static navigationOptions = {
@@ -27,13 +23,23 @@ export default class StartActivity extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      latitude: 0,
-      longitude: 0,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-      weather: ''
+      region: {
+        latitude: 41.741820,
+        longitude: -111.823030,
+        latitudeDelta: 0.0222,
+        longitudeDelta: 0.0121,
+      },
+      weather: '',
+      selected: 'key1',
     }
+  }
+
+  onValueChange(value) {
+    this.setState({
+      selected: value
+    });
   }
 
   //duration
@@ -43,16 +49,22 @@ export default class StartActivity extends Component {
   findCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
       position => {
-        var latitude = JSON.stringify(position.coords.latitude);
-        var longitude = JSON.stringify(position.coords.longitude);
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
         var weather = '';
         WeatherService.getWeather(latitude, longitude)
           .then(results => {
             weather = results.weather[0].main;
-            this.setState({
-              latitude: latitude,
-              longitude: longitude,
-              weather: weather
+            this.setState((prevState, prop) => {
+              return {
+                region: {
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: 0.0522,
+                  longitudeDelta: 0.0221,
+                },
+                weather: weather
+              }
             });
           }).catch(error => {
             console.log(error);
@@ -64,60 +76,58 @@ export default class StartActivity extends Component {
     );
   }
 
-  render() {
-    return (
-      <Content>
-        <Text style={styles.welcome}>Start Activity</Text>
-        <Button onPress={() => { this.findCurrentLocation() }}><Text>Check Location</Text></Button>
-        <Text>{this.state.latitude}</Text>
-        <Text>{this.state.longitude}</Text>
-        <Text>{this.state.weather}</Text>
-        <Button onPress={() => this.props.navigation.navigate('DuringActivity')}><Text>Go to During</Text></Button>
-        <Card>
-          <CardItem>
-            {/* <MapView
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              initialRegion={{
-                latitude: 41.7452,
-                longitude: -111.8097,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }} //use this instead of region prop
-              onRegionChange={(region) => this.onRegionChange(region)}
-            >
-              <Marker
-                coordinate={{
-                  latitude: state.longitude,
-                  longitude: this.state.longitude
-                }}
-              >
-                <Callout>
-                  <View>
-                    <Text>Current location</Text>
-                  </View>
-                </Callout>
-              </Marker>
-            </MapView> */}
-          </CardItem>
-        </Card>
-      </Content>
-    );
+  componentWillMount() {
+    this.findCurrentLocation();
   }
 
-  // onRegionChange(region) {
-  //   //update state, but doesn't modify map because we use initalRegion
-  //   //if we use region prop it creates a weird update cycle
-  //   this.setState({ region });
-  // }
+  render() {
+    return (
+      <Container style={styles.container}>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          initialRegion={this.state.region} //use this instead of region prop
+        >
+          <Marker
+            coordinate={{
+              latitude: this.state.region.latitude,
+              longitude: this.state.region.longitude,
+            }}
+          >
+            <Callout>
+              <View>
+                <Text>Current Location</Text>
+              </View>
+            </Callout>
+          </Marker>
+        </MapView>
+        <Content>
+        <Text >Start Activity</Text>
+        <Button onPress={() => { this.findCurrentLocation() }}><Text>Check Location</Text></Button>
+        <Text>{this.state.region.latitude}</Text>
+        <Text>{this.state.region.longitude}</Text>
+        <Text>{this.state.weather}</Text>
+        <Button onPress={() => this.props.navigation.navigate('DuringActivity')}><Text>Go to During</Text></Button>
 
+            <PickerWI/>
+          </Content>
+      </Container>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: height / 2,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

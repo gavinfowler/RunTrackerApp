@@ -7,11 +7,9 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Dimensions, } from 'react-native';
+import { Platform, StyleSheet, Text, View,Dimensions, } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
-import { Card, CardItem, Content, Container } from 'native-base';
-
-import Map from '../components/map'
+import { Card, CardItem, Content } from 'native-base';
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,7 +21,7 @@ var colors = {
 
 }
 
-export default class AfterActivity extends Component {
+export default class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -39,29 +37,25 @@ export default class AfterActivity extends Component {
 
   render() {
     return (
-      <Container style={styles.container}>
-      
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          initialRegion={this.state.region} //use this instead of region prop
-          onRegionChange={(region) => this.onRegionChange(region)}
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        initialRegion={this.state.region} //use this instead of region prop
+        onRegionChange={(region) => this.onRegionChange(region)}
+      >
+        <Marker
+          coordinate={{
+            latitude: 41.74088,
+            longitude: -111.81373
+          }}
         >
-          <Marker
-            coordinate={{
-              latitude: 41.74088,
-              longitude: -111.81373
-            }}
-          >
-            <Callout>
-              <View>
-                <Text>Chad Mano's Office</Text>
-              </View>
-            </Callout>
-          </Marker>
-        </MapView>
-        <Text>text2</Text>
-      </Container>
+          <Callout>
+            <View>
+              <Text>Chad Mano's Office</Text>
+            </View>
+          </Callout>
+        </Marker>
+      </MapView>
     );
   }
 
@@ -73,13 +67,6 @@ export default class AfterActivity extends Component {
 }
 
 const styles = StyleSheet.create({
-  other:{
-    position: 'absolute',
-    top: height / 2,
-    left: 0,
-    right: 0,
-    bottom: height,
-  },
   map: {
     position: 'absolute',
     top: 0,
@@ -103,7 +90,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  map1: {
+  map: {
     ...StyleSheet.absoluteFillObject,
   },
 });
