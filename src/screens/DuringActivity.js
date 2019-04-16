@@ -29,6 +29,7 @@ export default class DuringActivity extends Component {
 
     this.state = {
       active: true,
+      buttonText: 'Pause',
       timer: 0
     }
   }
@@ -39,8 +40,10 @@ export default class DuringActivity extends Component {
 
   pauseResume(){
     if(this.state.active){
+      this.setState({buttonText:'Resume'});
       clearInterval(interval);
     } else {
+      this.setState({buttonText:'Pause'});
       this.setUpTimer();
     }
     this.setState((prevState, props) => {
@@ -58,6 +61,19 @@ export default class DuringActivity extends Component {
     });
   }
 
+  secondsToFormat(){
+    hours = (Math.floor(this.state.timer/3600)).toString();
+    minutes = (Math.floor(this.state.timer/60)).toString();
+    seconds = (this.state.timer % 60).toString();
+    if(hours.length == 1)
+      hours = '0'+hours;
+    if(minutes.length == 1)
+      minutes = '0'+minutes;
+    if(seconds.length == 1)
+      seconds = '0'+seconds;
+    return(hours+':'+minutes+':'+seconds);
+  }
+
   componentWillMount() {
     this.setState({ timer: 0 });
     this.setUpTimer();
@@ -71,15 +87,15 @@ export default class DuringActivity extends Component {
     return (
       <Content>
         <Text style={styles.welcome}>DuringActivity</Text>
-        <Text style={styles.welcome}>{this.state.timer}</Text>
+        <Text style={styles.welcome}>{this.secondsToFormat()}</Text>
         <Button onPress={() => {clearInterval(interval);this.props.navigation.navigate('AfterActivity');}}>
           <Text>
-            Finish Activity
+            Finish activity
           </Text>
         </Button>
         <Button onPress={() => this.pauseResume()}>
           <Text>
-            Pause
+          {this.state.buttonText}
           </Text>
         </Button>
       </Content>

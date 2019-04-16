@@ -33,7 +33,7 @@ export default class StartActivity extends Component {
       },
       weather: '',
       temp: 0,
-      selected: 'key1',
+      selected: 'Run',
     }
   }
 
@@ -84,6 +84,11 @@ export default class StartActivity extends Component {
     this.findCurrentLocation();
   }
 
+  getValue(value){
+    console.log(value);
+    this.setState({selected:value});
+  }
+
   render() {
     return (
       <Container style={styles.container}>
@@ -108,7 +113,8 @@ export default class StartActivity extends Component {
         </MapView>
         <Content style={{ top: (height / 2) - 50 }}>
           <Text>Pick a type of activity</Text>
-          <PickerWI />
+          <PickerWI setValue={(value)=>{this.getValue(value)}}/>
+          <Text>Selected: {this.state.selected}</Text>
           <Text>Current Weather: {this.state.weather}</Text>
           <Text>Current Tempature: {this.state.temp} °F{'\n'}</Text>
           <Button onPress={() => this.props.navigation.navigate('DuringActivity')}>

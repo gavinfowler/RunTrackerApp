@@ -5,7 +5,7 @@ export default class PickerWithIcon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: "key1"
+      selected: "Run"
     };
   }
   onValueChange(value) {
@@ -13,19 +13,27 @@ export default class PickerWithIcon extends Component {
       selected: value
     });
   }
+
+  getValue(){
+    return(this.state.selected);
+  }
+
   render() {
     return (
           <Form>
             <Picker
               mode="dropdown"
-              iosHeader="Select your SIM"
-              iosIcon={<Icon name="arrow-down" />}
               selectedValue={this.state.selected}
-              onValueChange={this.onValueChange.bind(this)}
+              onValueChange={(itemValue) => {
+                this.onValueChange.bind(this);
+                this.setState({selected: itemValue},
+                  ()=>{this.props.setValue(this.state.selected)});
+              }}
+              
             >
-              <Picker.Item label="Run" value="key0" />
-              <Picker.Item label="Jog" value="key1" />
-              <Picker.Item label="Walk" value="key2" />
+              <Picker.Item label="Run" value="Run" />
+              <Picker.Item label="Jog" value="Jog" />
+              <Picker.Item label="Walk" value="Walk" />
             </Picker>
           </Form>
     );
