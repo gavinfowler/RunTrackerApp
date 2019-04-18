@@ -15,7 +15,7 @@ export default class DuringActivity extends Component {
   interval = null;
 
   static navigationOptions = {
-    title: 'DuringActivity'
+    title: 'During Activity'
   }
 
   constructor(props) {
@@ -26,6 +26,7 @@ export default class DuringActivity extends Component {
       latitude: 0,
       longitude: 0,
       pace: 0,
+      type: 'Run',
       active: true,
       buttonText: 'Pause',
       timer: 0
@@ -69,13 +70,14 @@ export default class DuringActivity extends Component {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
         var distance = this.state.distance;
-        console.log({latitude:latitude, longitude:longitude});
         
         distance=distance+this.getDistanceFromLatLon(this.state.latitude, this.state.longitude, latitude, longitude);
         pace=(distance/this.state.timer);
+
         if(isNaN(pace)){
           pace=0;
         }
+        
         this.setState({
           distance: distance,
           latitude: latitude,
@@ -120,6 +122,7 @@ export default class DuringActivity extends Component {
   }
 
   componentWillMount() {
+    var type = this.props.navigation.getParam('type', 'Run');
     navigator.geolocation.getCurrentPosition(
       position => {
         var latitude = position.coords.latitude;
@@ -127,7 +130,8 @@ export default class DuringActivity extends Component {
         this.setState({ 
           timer: 0,
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
+          type: type
         }, ()=>{
           this.setUpTimer();
           this.findCurrentLocation();
@@ -142,18 +146,16 @@ export default class DuringActivity extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Text style={styles.welcome}>DuringActivity</Text>
+        <Text style={styles.welcome}>Get Running!</Text>
         <Text style={styles.welcome}>{this.secondsToFormat()}</Text>
         <Button style={styles.buttons} onPress={() => this.pauseResume()}>
           <Text>
             {this.state.buttonText}
           </Text>
         </Button>
-        <Text>Latitude: {this.state.latitude}</Text>
-        <Text>Longitude: {this.state.longitude}</Text>
-        <Text>Distance: {Math.floor(this.state.distance)} meters</Text>
-        <Text>Pace: {Math.floor(this.state.pace)} meters/second</Text>
-        <Button style={styles.buttons} onPress={() => { clearInterval(interval); this.props.navigation.navigate('AfterActivity'); }}>
+        <Text>{'\n'}Distance: {Math.floor(this.state.distance)} meters{'\n'}</Text>
+        <Text>Pace: {Math.floor(this.state.pace)} meters/second{'\n'}</Text>
+        <Button style={styles.buttons} onPress={() => { clearInterval(interval); this.props.navigation.navigate('AfterActivity', {state:this.state}); }}>
           <Text>
             Finish activity
           </Text>

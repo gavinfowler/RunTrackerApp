@@ -26,6 +26,27 @@ export default class Home extends Component {
     title: 'Home'
   }
 
+  constructor(props){
+    super(props);
+
+    this.state={
+      activities: []
+    }
+  }
+
+  componentWillMount(){
+    const {navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      console.log('home focused');
+      //check if param===undefined
+      // if not append to state
+    })
+  }
+
+  componentWillUnmount(){
+    this.focusListener.remove();
+  }
+
   render() {
     return (
       <Container>

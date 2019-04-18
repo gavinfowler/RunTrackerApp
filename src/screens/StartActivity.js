@@ -50,7 +50,6 @@ export default class StartActivity extends Component {
   findCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
       position => {
-        console.log(position);
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
         var weather = '';
@@ -86,7 +85,6 @@ export default class StartActivity extends Component {
   }
 
   getValue(value){
-    console.log(value);
     this.setState({selected:value});
   }
 
@@ -115,10 +113,9 @@ export default class StartActivity extends Component {
         <Content style={{ top: (height / 2) - 50 }}>
           <Text>Pick a type of activity</Text>
           <PickerWI setValue={(value)=>{this.getValue(value)}}/>
-          <Text>Selected: {this.state.selected}</Text>
-          <Text>Current Weather: {this.state.weather}</Text>
-          <Text>Current Tempature: {this.state.temp} °F{'\n'}</Text>
-          <Button onPress={() => this.props.navigation.navigate('DuringActivity')}>
+          <Text>{'\n'}Current Weather: {this.state.weather}</Text>
+          <Text>{'\n'}Current Tempature: {this.state.temp} °F{'\n'}</Text>
+          <Button onPress={() => this.props.navigation.navigate('DuringActivity', { type:this.state.selected })}>
             <Text>Start Activity</Text>
           </Button>
         </Content>

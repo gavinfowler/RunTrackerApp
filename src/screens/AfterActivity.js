@@ -31,10 +31,14 @@ export default class AfterActivity extends Component {
       region: {
         latitude: 41.7452,
         longitude: -111.8097,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.0522,
+        longitudeDelta: 0.0221,
       }
     }
+  }
+
+  componentWillMount(){
+    console.log(this.props.navigation.getParam('state'));
   }
 
   render() {
