@@ -8,14 +8,8 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
-import { Button, Text, Content } from 'native-base';
+import { Button, Text, Content, Container } from 'native-base';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 export default class DuringActivity extends Component {
   interval = null;
@@ -28,6 +22,10 @@ export default class DuringActivity extends Component {
     super(props);
 
     this.state = {
+      distance: 0,
+      latitude: 0,
+      longitude: 0,
+      pace: 0,
       active: true,
       buttonText: 'Pause',
       timer: 0
@@ -38,17 +36,17 @@ export default class DuringActivity extends Component {
     interval = setInterval(this.myTimer, 1000)
   }
 
-  pauseResume(){
-    if(this.state.active){
-      this.setState({buttonText:'Resume'});
+  pauseResume() {
+    if (this.state.active) {
+      this.setState({ buttonText: 'Resume' });
       clearInterval(interval);
     } else {
-      this.setState({buttonText:'Pause'});
+      this.setState({ buttonText: 'Pause' });
       this.setUpTimer();
     }
     this.setState((prevState, props) => {
-      return{
-        active:!prevState.active
+      return {
+        active: !prevState.active
       }
     });
   }
@@ -58,25 +56,83 @@ export default class DuringActivity extends Component {
       return {
         timer: prevState.timer + 1
       }
+    }, ()=> { 
+      if(this.state.timer%10==0){
+        this.findCurrentLocation()
+      } 
     });
   }
 
-  secondsToFormat(){
-    hours = (Math.floor(this.state.timer/3600)).toString();
-    minutes = (Math.floor(this.state.timer/60)).toString();
+  findCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var distance = this.state.distance;
+        console.log({latitude:latitude, longitude:longitude});
+        
+        distance=distance+this.getDistanceFromLatLon(this.state.latitude, this.state.longitude, latitude, longitude);
+        pace=(distance/this.state.timer);
+        if(isNaN(pace)){
+          pace=0;
+        }
+        this.setState({
+          distance: distance,
+          latitude: latitude,
+          longitude: longitude,
+          pace: pace
+        });
+      },
+      error => { console.log(error) },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
+
+  getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2 - lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d * 1000;
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI / 180)
+  }
+
+  secondsToFormat() {
+    hours = (Math.floor(this.state.timer / 3600)).toString();
+    minutes = (Math.floor(this.state.timer / 60)).toString();
     seconds = (this.state.timer % 60).toString();
-    if(hours.length == 1)
-      hours = '0'+hours;
-    if(minutes.length == 1)
-      minutes = '0'+minutes;
-    if(seconds.length == 1)
-      seconds = '0'+seconds;
-    return(hours+':'+minutes+':'+seconds);
+    if (hours.length == 1)
+      hours = '0' + hours;
+    if (minutes.length == 1)
+      minutes = '0' + minutes;
+    if (seconds.length == 1)
+      seconds = '0' + seconds;
+    return (hours + ':' + minutes + ':' + seconds);
   }
 
   componentWillMount() {
-    this.setState({ timer: 0 });
-    this.setUpTimer();
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        this.setState({ 
+          timer: 0,
+          latitude: latitude,
+          longitude: longitude
+        }, ()=>{
+          this.setUpTimer();
+          this.findCurrentLocation();
+        })
+      });
   }
 
   componentWillUnmount() {
@@ -85,20 +141,24 @@ export default class DuringActivity extends Component {
 
   render() {
     return (
-      <Content>
+      <Container style={styles.container}>
         <Text style={styles.welcome}>DuringActivity</Text>
         <Text style={styles.welcome}>{this.secondsToFormat()}</Text>
-        <Button onPress={() => {clearInterval(interval);this.props.navigation.navigate('AfterActivity');}}>
+        <Button style={styles.buttons} onPress={() => this.pauseResume()}>
+          <Text>
+            {this.state.buttonText}
+          </Text>
+        </Button>
+        <Text>Latitude: {this.state.latitude}</Text>
+        <Text>Longitude: {this.state.longitude}</Text>
+        <Text>Distance: {Math.floor(this.state.distance)} meters</Text>
+        <Text>Pace: {Math.floor(this.state.pace)} meters/second</Text>
+        <Button style={styles.buttons} onPress={() => { clearInterval(interval); this.props.navigation.navigate('AfterActivity'); }}>
           <Text>
             Finish activity
           </Text>
         </Button>
-        <Button onPress={() => this.pauseResume()}>
-          <Text>
-          {this.state.buttonText}
-          </Text>
-        </Button>
-      </Content>
+      </Container>
     );
   }
 }
@@ -106,9 +166,13 @@ export default class DuringActivity extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  buttons: {
+    padding: '10%', 
+    alignSelf: 'center'
   },
   welcome: {
     fontSize: 20,

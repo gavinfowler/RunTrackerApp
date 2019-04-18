@@ -50,6 +50,7 @@ export default class StartActivity extends Component {
   findCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
       position => {
+        console.log(position);
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
         var weather = '';
