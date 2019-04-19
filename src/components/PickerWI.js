@@ -14,28 +14,29 @@ export default class PickerWithIcon extends Component {
     });
   }
 
-  getValue(){
-    return(this.state.selected);
+  getValue() {
+    return (this.state.selected);
   }
 
   render() {
     return (
-          <Form>
-            <Picker
-              mode="dropdown"
-              selectedValue={this.state.selected}
-              onValueChange={(itemValue) => {
-                this.onValueChange.bind(this);
-                this.setState({selected: itemValue},
-                  ()=>{this.props.setValue(this.state.selected)});
-              }}
-              
-            >
-              <Picker.Item label="Run" value="Run" />
-              <Picker.Item label="Jog" value="Jog" />
-              <Picker.Item label="Walk" value="Walk" />
-            </Picker>
-          </Form>
+      <Form>
+        <Picker
+          mode="dropdown"
+          selectedValue={this.state.selected}
+          style={{width:'50%', alignSelf:'center'}}
+          onValueChange={(itemValue) => {
+            this.onValueChange.bind(this);
+            this.setState({ selected: itemValue },
+              () => { this.props.setValue(this.state.selected) });
+          }}
+
+        >
+          <Picker.Item label="Run" value="Run" />
+          <Picker.Item label="Jog" value="Jog" />
+          <Picker.Item label="Walk" value="Walk" />
+        </Picker>
+      </Form>
     );
   }
 }

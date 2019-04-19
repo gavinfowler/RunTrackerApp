@@ -43,10 +43,6 @@ export default class StartActivity extends Component {
     });
   }
 
-  //duration
-  //distance
-  //pace = time/distance
-
   findCurrentLocation() {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -84,8 +80,8 @@ export default class StartActivity extends Component {
     this.findCurrentLocation();
   }
 
-  getValue(value){
-    this.setState({selected:value});
+  getValue(value) {
+    this.setState({ selected: value });
   }
 
   render() {
@@ -110,14 +106,14 @@ export default class StartActivity extends Component {
             </Callout>
           </Marker>
         </MapView>
-        <Content style={{ top: (height / 2) - 50 }}>
-          <Text>Pick a type of activity</Text>
-          <PickerWI setValue={(value)=>{this.getValue(value)}}/>
-          <Text>{'\n'}Current Weather: {this.state.weather}</Text>
-          <Text>{'\n'}Current Tempature: {this.state.temp} °F{'\n'}</Text>
-          <Button onPress={() => this.props.navigation.navigate('DuringActivity', { type:this.state.selected })}>
-            <Text>Start Activity</Text>
-          </Button>
+        <Content style={{ top: (height / 2) - 50, width: '100%', }}>
+            <Text style={{alignSelf:'center'}}>Pick a type of activity</Text>
+            <PickerWI setValue={(value) => { this.getValue(value) }} />
+            <Text style={{alignSelf:'center'}}>{'\n'}Current Weather: {this.state.weather}</Text>
+            <Text style={{alignSelf:'center'}}>{'\n'}Current Tempature: {this.state.temp} °F{'\n'}</Text>
+            <Button block onPress={() => this.props.navigation.navigate('DuringActivity', { type: this.state.selected, weather: this.state.weather })}>
+              <Text>Start Activity</Text>
+            </Button>
         </Content>
       </Container>
     );

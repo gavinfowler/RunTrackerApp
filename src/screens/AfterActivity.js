@@ -7,11 +7,13 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Dimensions, } from 'react-native';
+import { Platform, StyleSheet, View, Dimensions, } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
-import { Card, CardItem, Content, Container } from 'native-base';
+import { Card, CardItem, Content, Container, Text, Button, Item, Input, Label, Form } from 'native-base';
 
 import Map from '../components/map'
+import WeatherService from '../api/weather.service';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,33 +30,63 @@ export default class AfterActivity extends Component {
     super(props);
 
     this.state = {
-      region: {
-        latitude: 41.7452,
-        longitude: -111.8097,
-        latitudeDelta: 0.0522,
-        longitudeDelta: 0.0221,
-      }
+      distance: 0,
+      latitude: 0,
+      longitude: 0,
+      history: [],
+      pace: 0,
+      type: 'Run',
+      active: true,
+      buttonText: 'Pause',
+      timer: 0,
+      weather: '',
+      newWeather: ''
     }
   }
 
-  componentWillMount(){
-    console.log(this.props.navigation.getParam('state'));
+  secondsToFormat() {
+    hours = (Math.floor(this.state.timer / 3600)).toString();
+    minutes = (Math.floor(this.state.timer / 60)).toString();
+    seconds = (this.state.timer % 60).toString();
+    if (hours.length == 1)
+      hours = '0' + hours;
+    if (minutes.length == 1)
+      minutes = '0' + minutes;
+    if (seconds.length == 1)
+      seconds = '0' + seconds;
+    return (hours + ':' + minutes + ':' + seconds);
+  }
+
+  componentWillMount() {
+    incomingState = this.props.navigation.getParam('state');
+    WeatherService.getWeather(incomingState.latitude, incomingState.longitude)
+      .then(results => {
+        weather = results.weather[0].main;
+        incomingState['newWeather'] = weather;
+        this.setState(incomingState);
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
   render() {
     return (
       <Container style={styles.container}>
-      
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          initialRegion={this.state.region} //use this instead of region prop
+          initialRegion={{
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            latitudeDelta: 0.0522,
+            longitudeDelta: 0.0221
+          }}
           onRegionChange={(region) => this.onRegionChange(region)}
         >
           <Marker
             coordinate={{
-              latitude: 41.74088,
-              longitude: -111.81373
+              latitude: this.state.latitude,
+              longitude: this.state.longitude
             }}
           >
             <Callout>
@@ -64,10 +96,52 @@ export default class AfterActivity extends Component {
             </Callout>
           </Marker>
         </MapView>
-        <Text>text2</Text>
-      </Container>
+        <Content style={{ top: (height / 2) - 50, width: '100%' }}>
+          <Content>
+            <Form style={{ width: '50%', alignSelf: 'center', paddingBottom: 20,paddingTop:0 }}>
+              <Item floatingLabel>
+                <Label>Username</Label>
+                <Input />
+              </Item>
+            </Form>
+          </Content>
+          <View style={{ alignItems: 'center' }}>
+            <Button block>
+              <Text>
+                Take a picture!
+            </Text>
+            </Button>
+            <Text>{'\n'}Duration: {this.secondsToFormat()} seconds</Text>
+            <Text>Distance: {this.state.distance} meters</Text>
+            <Text>Pace: {this.state.pace} meters/second</Text>
+            <Text>Weather begin: {this.state.weather}</Text>
+            <Text>Weather end: {this.state.newWeather}</Text>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+            <Button style={{ width: '30%' }}>
+              <Text>
+                Save
+            </Text>
+            </Button>
+            <Button style={{ width: '30%' }}>
+              <Text>
+                Cancel
+            </Text>
+            </Button>
+          </View>
+        </Content>
+      </Container >
     );
   }
+
+  /*
+ 
+  Map with path (GPS points create path)
+  How do you feel?
+  Take Photo (Create a record of worst looking selfies!)
+  Save/Delete
+ 
+  */
 
   onRegionChange(region) {
     //update state, but doesn't modify map because we use initalRegion
@@ -77,7 +151,7 @@ export default class AfterActivity extends Component {
 }
 
 const styles = StyleSheet.create({
-  other:{
+  other: {
     position: 'absolute',
     top: height / 2,
     left: 0,

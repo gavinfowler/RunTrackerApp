@@ -26,16 +26,16 @@ export default class Home extends Component {
     title: 'Home'
   }
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
-    this.state={
+    this.state = {
       activities: []
     }
   }
 
-  componentWillMount(){
-    const {navigation } = this.props;
+  componentWillMount() {
+    const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       console.log('home focused');
       //check if param===undefined
@@ -43,7 +43,7 @@ export default class Home extends Component {
     })
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.focusListener.remove();
   }
 

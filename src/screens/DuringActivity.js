@@ -25,11 +25,13 @@ export default class DuringActivity extends Component {
       distance: 0,
       latitude: 0,
       longitude: 0,
+      history: [],
       pace: 0,
       type: 'Run',
       active: true,
       buttonText: 'Pause',
-      timer: 0
+      timer: 0,
+      weather: ''
     }
   }
 
@@ -57,10 +59,10 @@ export default class DuringActivity extends Component {
       return {
         timer: prevState.timer + 1
       }
-    }, ()=> { 
-      if(this.state.timer%10==0){
+    }, () => {
+      if (this.state.timer % 10 == 0) {
         this.findCurrentLocation()
-      } 
+      }
     });
   }
 
@@ -70,19 +72,27 @@ export default class DuringActivity extends Component {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
         var distance = this.state.distance;
-        
-        distance=distance+this.getDistanceFromLatLon(this.state.latitude, this.state.longitude, latitude, longitude);
-        pace=(distance/this.state.timer);
 
-        if(isNaN(pace)){
-          pace=0;
+        distance = distance + this.getDistanceFromLatLon(this.state.latitude, this.state.longitude, latitude, longitude);
+        pace = (distance / this.state.timer);
+
+        if (isNaN(pace)) {
+          pace = 0;
         }
-        
-        this.setState({
-          distance: distance,
-          latitude: latitude,
-          longitude: longitude,
-          pace: pace
+
+        this.setState((prevState, props) => {
+          temp = prevState.history;
+          temp.push({
+            latitude: latitude,
+            longitude: longitude
+          });
+          return {
+            distance: distance,
+            latitude: latitude,
+            longitude: longitude,
+            history: temp,
+            pace: pace
+          }
         });
       },
       error => { console.log(error) },
@@ -123,16 +133,18 @@ export default class DuringActivity extends Component {
 
   componentWillMount() {
     var type = this.props.navigation.getParam('type', 'Run');
+    var weather = this.props.navigation.getParam('weather', 'Clouds');
     navigator.geolocation.getCurrentPosition(
       position => {
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        this.setState({ 
+        this.setState({
           timer: 0,
           latitude: latitude,
           longitude: longitude,
-          type: type
-        }, ()=>{
+          type: type,
+          weather: weather
+        }, () => {
           this.setUpTimer();
           this.findCurrentLocation();
         })
@@ -148,14 +160,14 @@ export default class DuringActivity extends Component {
       <Container style={styles.container}>
         <Text style={styles.welcome}>Get Running!</Text>
         <Text style={styles.welcome}>{this.secondsToFormat()}</Text>
-        <Button style={styles.buttons} onPress={() => this.pauseResume()}>
+        <Button block onPress={() => this.pauseResume()}>
           <Text>
             {this.state.buttonText}
           </Text>
         </Button>
         <Text>{'\n'}Distance: {Math.floor(this.state.distance)} meters{'\n'}</Text>
         <Text>Pace: {Math.floor(this.state.pace)} meters/second{'\n'}</Text>
-        <Button style={styles.buttons} onPress={() => { clearInterval(interval); this.props.navigation.navigate('AfterActivity', {state:this.state}); }}>
+        <Button block onPress={() => { clearInterval(interval); this.props.navigation.navigate('AfterActivity', { state: this.state }); }}>
           <Text>
             Finish activity
           </Text>
@@ -173,7 +185,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   buttons: {
-    padding: '10%', 
     alignSelf: 'center'
   },
   welcome: {
