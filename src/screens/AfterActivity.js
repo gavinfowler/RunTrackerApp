@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Dimensions, } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Callout, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Callout, Marker, Polyline, Polygon } from 'react-native-maps';
 import { Card, CardItem, Content, Container, Text, Button, Item, Input, Label, Form } from 'native-base';
 
 import Map from '../components/map'
@@ -40,7 +40,8 @@ export default class AfterActivity extends Component {
       buttonText: 'Pause',
       timer: 0,
       weather: '',
-      newWeather: ''
+      newWeather: '',
+      coordinates: []
     }
   }
 
@@ -63,7 +64,15 @@ export default class AfterActivity extends Component {
       .then(results => {
         weather = results.weather[0].main;
         incomingState['newWeather'] = weather;
-        this.setState(incomingState);
+        incomingState['coordinates'] = [
+          { latitude: 37.8025259, longitude: -122.4351431 },
+          { latitude: 37.7896386, longitude: -122.421646 },
+          { latitude: 37.7665248, longitude: -122.4161628 },
+          { latitude: 37.7734153, longitude: -122.4577787 },
+          { latitude: 37.7948605, longitude: -122.4596065 },
+          { latitude: 37.8025259, longitude: -122.4351431 },
+        ];
+        this.setState(incomingState, () => console.log(this.state));
       }).catch(error => {
         console.log(error);
       });
@@ -78,8 +87,8 @@ export default class AfterActivity extends Component {
           initialRegion={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.0522,
-            longitudeDelta: 0.0221
+            latitudeDelta: 0.0222,
+            longitudeDelta: 0.0121
           }}
           onRegionChange={(region) => this.onRegionChange(region)}
         >
@@ -91,16 +100,19 @@ export default class AfterActivity extends Component {
           >
             <Callout>
               <View>
-                <Text>Chad Mano's Office</Text>
+                <Text>Current Location</Text>
               </View>
             </Callout>
+            <Polyline
+              coordinates={this.state.coordinates}
+            />
           </Marker>
         </MapView>
-        <Content style={{ top: (height / 2) - 50, width: '100%' }}>
-          <Content>
-            <Form style={{ width: '50%', alignSelf: 'center', paddingBottom: 20,paddingTop:0 }}>
+        <Content style={{ top: (height / 2) - 90, width: '100%' }}>
+          <Content style={{ padding: 0 }}>
+            <Form style={{ width: '50%', alignSelf: 'center', paddingBottom: 20, paddingTop: 0 }}>
               <Item floatingLabel>
-                <Label>Username</Label>
+                <Label>How are you feeling?</Label>
                 <Input />
               </Item>
             </Form>
