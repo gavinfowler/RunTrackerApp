@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { CameraRoll, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { CameraRoll, Platform, StyleSheet, View, Dimensions } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { PermissionsAndroid } from 'react-native';
+import { Button, Text } from 'native-base';
+import { tsImportEqualsDeclaration } from '@babel/types';
 
+const { width, height } = Dimensions.get('window');
 
 export default class TakePhoto extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            type = RNCamera.Constants.Type.back,
+            photo: ''
+        }
+    }
 
     componentDidMount() {
         if (Platform.OS === 'Android') {
@@ -20,16 +30,35 @@ export default class TakePhoto extends Component {
                         this.camera = ref;
                     }}
                     style={styles.preview}
-                    type={RNCamera.Constants.Type.back}
+                    type={this.state.type}
                     flashMode={RNCamera.Constants.FlashMode.on}
                 />
                 <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={() => this.takePicture()} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> SNAP </Text>
-                    </TouchableOpacity>
+                    <Button light onPress={() => this.takePicture()} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}> Snap </Text>
+                    </Button>
+                    <Button light onPress={() => this.toggleType()} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}> Flip </Text>
+                    </Button>
+                </View>
+                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                    <Button success onPress={() => this.props.navigation.navigate('AfterActivity', { photo: this.state.photo })} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}> Save </Text>
+                    </Button>
+                    <Button danger onPress={() => this.props.navigation.navigate('AfterActivity')} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}> Cancel </Text>
+                    </Button>
                 </View>
             </View>
         );
+    }
+
+    toggleType() {
+        this.setState((prevState) => {
+            return ({
+                type: prevState.type == RNCamera.Constants.Type.back ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back,
+            })
+        })
     }
 
     takePicture() {
@@ -38,6 +67,7 @@ export default class TakePhoto extends Component {
             this.camera.takePictureAsync(options)
                 .then(result => {
                     CameraRoll.saveToCameraRoll(result.uri)
+                    .then(this.setState({ photo: result.uri }));
                 })
                 .catch(error => console.log('error:', error));
 
@@ -80,11 +110,11 @@ const styles = StyleSheet.create({
     },
     capture: {
         flex: 0,
-        backgroundColor: '#fff',
         borderRadius: 5,
-        padding: 15,
+        padding: 5,
         paddingHorizontal: 20,
         alignSelf: 'center',
         margin: 20,
+        width: '35%'
     },
 });

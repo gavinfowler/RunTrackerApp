@@ -39,9 +39,10 @@ export default class AfterActivity extends Component {
       active: true,
       buttonText: 'Pause',
       timer: 0,
+      feeling: '',
       weather: '',
       newWeather: '',
-      coordinates: []
+      photo: ''
     }
   }
 
@@ -59,23 +60,35 @@ export default class AfterActivity extends Component {
   }
 
   componentWillMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      if(this.props.navigation.getParam('photo') != undefined){
+        photo = this.props.navigation.getParam('photo');
+        // console.log(photo)
+        this.setState({photo: photo})
+      } else {
+        console.log('couldn\'t find pic')
+      }
+    })
     incomingState = this.props.navigation.getParam('state');
     WeatherService.getWeather(incomingState.latitude, incomingState.longitude)
       .then(results => {
         weather = results.weather[0].main;
         incomingState['newWeather'] = weather;
         incomingState['coordinates'] = [
-          { latitude: 37.8025259, longitude: -122.4351431 },
-          { latitude: 37.7896386, longitude: -122.421646 },
-          { latitude: 37.7665248, longitude: -122.4161628 },
-          { latitude: 37.7734153, longitude: -122.4577787 },
-          { latitude: 37.7948605, longitude: -122.4596065 },
-          { latitude: 37.8025259, longitude: -122.4351431 },
+          { latitude: 41.7418, longitude: -111.823 },
+          { latitude: 41.7428, longitude: -111.833 }
         ];
-        this.setState(incomingState, () => console.log(this.state));
+        this.setState(incomingState
+          // ,() => console.log(this.state)
+        );
       }).catch(error => {
         console.log(error);
       });
+    }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
 
   render() {
@@ -90,7 +103,7 @@ export default class AfterActivity extends Component {
             latitudeDelta: 0.0222,
             longitudeDelta: 0.0121
           }}
-          onRegionChange={(region) => this.onRegionChange(region)}
+          // onRegionChange={(region) => this.onRegionChange(region)}
         >
           <Marker
             coordinate={{
@@ -103,39 +116,40 @@ export default class AfterActivity extends Component {
                 <Text>Current Location</Text>
               </View>
             </Callout>
-            <Polyline
-              coordinates={this.state.coordinates}
-            />
           </Marker>
+          <Polyline
+            coordinates={this.state.history}
+            strokeWidth={3}
+          />
         </MapView>
         <Content style={{ top: (height / 2) - 90, width: '100%' }}>
           <Content style={{ padding: 0 }}>
             <Form style={{ width: '50%', alignSelf: 'center', paddingBottom: 20, paddingTop: 0 }}>
               <Item floatingLabel>
                 <Label>How are you feeling?</Label>
-                <Input />
+                <Input onChangeText={(text) => this.setState({ feeling: text })} />
               </Item>
             </Form>
           </Content>
           <View style={{ alignItems: 'center' }}>
-            <Button block>
+            <Button block onPress={() => { this.props.navigation.navigate('TakePhoto') }}>
               <Text>
                 Take a picture!
             </Text>
             </Button>
             <Text>{'\n'}Duration: {this.secondsToFormat()} seconds</Text>
-            <Text>Distance: {this.state.distance} meters</Text>
-            <Text>Pace: {this.state.pace} meters/second</Text>
+            <Text>Distance: {Math.floor(this.state.distance)} meters</Text>
+            <Text>Pace: {Math.floor(this.state.pace)} meters/second</Text>
             <Text>Weather begin: {this.state.weather}</Text>
             <Text>Weather end: {this.state.newWeather}</Text>
           </View>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-            <Button style={{ width: '30%' }}>
+            <Button success style={{ width: '30%' }} onPress={() => { this.props.navigation.navigate('Home', { state: this.state }) }}>
               <Text>
                 Save
             </Text>
             </Button>
-            <Button style={{ width: '30%' }}>
+            <Button danger style={{ width: '30%' }} onPress={() => { this.props.navigation.navigate('Home') }}>
               <Text>
                 Cancel
             </Text>
@@ -144,21 +158,6 @@ export default class AfterActivity extends Component {
         </Content>
       </Container >
     );
-  }
-
-  /*
- 
-  Map with path (GPS points create path)
-  How do you feel?
-  Take Photo (Create a record of worst looking selfies!)
-  Save/Delete
- 
-  */
-
-  onRegionChange(region) {
-    //update state, but doesn't modify map because we use initalRegion
-    //if we use region prop it creates a weird update cycle
-    this.setState({ region });
   }
 }
 

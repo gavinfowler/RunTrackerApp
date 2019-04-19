@@ -9,6 +9,7 @@ let ApiService = class ApiService {
 	* Utility methods/properties
 	*/
 	getWeatherAddress(lat, lon) {
+		// console.log(this.endPoint+"lat="+lat.toString()+"&lon="+lon.toString()+"&appid="+this.apiKey);
 		return(this.endPoint+"lat="+lat.toString()+"&lon="+lon.toString()+"&appid="+this.apiKey);
 	}
 };

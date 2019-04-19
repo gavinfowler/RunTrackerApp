@@ -60,7 +60,7 @@ export default class DuringActivity extends Component {
         timer: prevState.timer + 1
       }
     }, () => {
-      if (this.state.timer % 10 == 0) {
+      if (this.state.timer % 2 == 0) {
         this.findCurrentLocation()
       }
     });
