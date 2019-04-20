@@ -20,7 +20,7 @@ export default class AfterActivity extends Component {
     super(props);
 
     this.state = {
-      id:0,
+      id:136,
       distance: 0,
       latitude: 0,
       longitude: 0,
@@ -55,7 +55,7 @@ export default class AfterActivity extends Component {
 
   componentWillMount() {
     temp = this.props.navigation.getParam('data');
-    console.log(temp);
+    // console.log(temp);
     this.setState(temp[0])
   }
 
