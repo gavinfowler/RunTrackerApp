@@ -31,7 +31,8 @@ export default class DuringActivity extends Component {
       active: true,
       buttonText: 'Pause',
       timer: 0,
-      weather: ''
+      weather: '',
+      tempature: 0
     }
   }
 

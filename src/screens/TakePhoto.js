@@ -11,15 +11,14 @@ export default class TakePhoto extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            type = RNCamera.Constants.Type.back,
+            type: 'back',
             photo: ''
         }
     }
 
     componentDidMount() {
-        if (Platform.OS === 'Android') {
-            requestCameraRollPermission();
-        }
+        console.log('ca;;ed')
+        requestCameraRollPermission();
     }
 
     render() {
@@ -56,7 +55,7 @@ export default class TakePhoto extends Component {
     toggleType() {
         this.setState((prevState) => {
             return ({
-                type: prevState.type == RNCamera.Constants.Type.back ? RNCamera.Constants.Type.front : RNCamera.Constants.Type.back,
+                type: prevState.type == 'back' ? 'front' : 'back',
             })
         })
     }
@@ -67,7 +66,9 @@ export default class TakePhoto extends Component {
             this.camera.takePictureAsync(options)
                 .then(result => {
                     CameraRoll.saveToCameraRoll(result.uri)
-                    .then(this.setState({ photo: result.uri }));
+                    .then(this.setState({ photo: result.uri },()=>{
+                        console.log(result)
+                    }));
                 })
                 .catch(error => console.log('error:', error));
 
@@ -87,7 +88,7 @@ async function requestCameraRollPermission() {
                 buttonPositive: 'Grant',
             },
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        if (granted == PermissionsAndroid.RESULTS.GRANTED) {
             console.log('You can save pictures');
         } else {
             console.log('Camera roll access denied');

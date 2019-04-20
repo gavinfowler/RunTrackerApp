@@ -10,14 +10,24 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Image } from 'react-native';
 import { Button, Text, Body, Container, Content, Card, CardItem } from 'native-base';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+temp = {
+  distance: 1000,
+  latitude: 0,
+  longitude: 0,
+  history: [],
+  pace: 16,
+  type: 'Run',
+  active: true,
+  buttonText: 'Pause',
+  timer: 166,
+  feeling: 'good',
+  weather: 'clear',
+  newWeather: 'clear',
+  photo: '', 
+  tempature: 56
+}
 
-export default class Home extends Component {
+export default class HistoryDetail extends Component {
   static navigationOptions = {
     title: 'Home'
   }
@@ -34,8 +44,39 @@ export default class Home extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
       console.log('home focused');
-      console.log(navigation.getParam('state'))
+      if (this.props.navigation.getParam('state') !== undefined) {
+        activities = this.state.activities;
+        temp = this.props.navigation.getParam('state');
+        temp['isColdest'] = false;
+        temp['isLongest'] = false;
+        temp['id'] = activities.length
+        activities.push();
+        this.setState({ activities: activities }, () => {console.log(this.state);this.setRewards();});
+      }
     })
+  }
+
+  setRewards(){
+    if(this.state.activities.length > 0){
+      for(i in this.state.activities){
+        i.isColdest = false;
+      }
+      this.state.activities.sort((a, b) => {
+        return a.temp - b.temp;
+      })
+      this.state.activities[0]['isColdest'] = true
+      for(i in this.state.activities){
+        i.isLongest = false;
+      }
+      this.state.activities.sort((a, b) => {
+        return a.distance - b.distance;
+      })
+      this.state.activities[0]['isLongest'] = true
+    }
+  }
+
+  deleteActivity(index){
+
   }
 
   componentWillUnmount() {
@@ -83,7 +124,7 @@ export default class Home extends Component {
             </CardItem>
           </Card>
           <Text style={styles.welcome}>Home</Text>
-          <Button onPress={() => this.props.navigation.navigate('StartActivity')}><Text>Go to Start</Text></Button>
+          <Button onPress={() => this.props.navigation.navigate('HistoryDetail', {data:[temp]})}><Text>Go to History Detail</Text></Button>
           <Button onPress={() => this.props.navigation.navigate('TakePhoto')}><Text>Take Photo</Text></Button>
         </Content>
       </Container>

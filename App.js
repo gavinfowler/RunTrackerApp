@@ -7,7 +7,8 @@ import DuringActivity from './src/screens/DuringActivity';
 import AfterActivity from './src/screens/AfterActivity';
 import TakePhoto from './src/screens/TakePhoto';
 import Rewards from './src/screens/Rewards';
-import History from './src/screens/History'
+import History from './src/screens/History';
+import HistoryDetail from './src/screens/HistoryDetail';
 
 
 export default class App extends Component {
@@ -27,6 +28,7 @@ const Root = createStackNavigator(
         TakePhoto: TakePhoto,
         Rewards: Rewards,
         History: History,
+        HistoryDetail: HistoryDetail
     },
     {
         initialRouteName: 'Home'

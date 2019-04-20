@@ -42,7 +42,8 @@ export default class AfterActivity extends Component {
       feeling: '',
       weather: '',
       newWeather: '',
-      photo: ''
+      photo: '', 
+      tempature: 0
     }
   }
 
@@ -73,12 +74,16 @@ export default class AfterActivity extends Component {
     incomingState = this.props.navigation.getParam('state');
     WeatherService.getWeather(incomingState.latitude, incomingState.longitude)
       .then(results => {
+        console.log(results)
         weather = results.weather[0].main;
+        var K = results.main.temp;
+        temp = Math.round((K - 273.15) * 1.8000 + 32.00);
         incomingState['newWeather'] = weather;
         incomingState['coordinates'] = [
           { latitude: 41.7418, longitude: -111.823 },
           { latitude: 41.7428, longitude: -111.833 }
         ];
+        incomingState['tempature'] = temp;
         this.setState(incomingState
           // ,() => console.log(this.state)
         );
