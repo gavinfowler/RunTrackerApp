@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- Add to create a Launch Image Screen -->
+	<style name="SplashTheme" parent="AppTheme">
+		<item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
 </resources>

@@ -12,6 +12,7 @@ export default class Rewards extends Component {
 
   componentWillMount(){
     temp = this.props.navigation.getParam('state');
+    this.setState({activities:temp});
     console.log(temp);
   }
 

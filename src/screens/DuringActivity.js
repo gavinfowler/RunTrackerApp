@@ -32,7 +32,8 @@ export default class DuringActivity extends Component {
       buttonText: 'Pause',
       timer: 0,
       weather: '',
-      tempature: 0
+      tempature: 0,
+      timestamp: null
     }
   }
 
@@ -133,6 +134,7 @@ export default class DuringActivity extends Component {
   }
 
   componentWillMount() {
+    date = new Date();
     var type = this.props.navigation.getParam('type', 'Run');
     var weather = this.props.navigation.getParam('weather', 'Clouds');
     navigator.geolocation.getCurrentPosition(
@@ -144,8 +146,10 @@ export default class DuringActivity extends Component {
           latitude: latitude,
           longitude: longitude,
           type: type,
-          weather: weather
+          weather: weather,
+          timestamp: date
         }, () => {
+          // console.log(this.state)
           this.setUpTimer();
           this.findCurrentLocation();
         })

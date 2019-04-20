@@ -43,7 +43,8 @@ export default class AfterActivity extends Component {
       weather: '',
       newWeather: '',
       photo: '', 
-      tempature: 0
+      tempature: 0,
+      timestamp: null
     }
   }
 

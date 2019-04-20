@@ -34,6 +34,7 @@ export default class StartActivity extends Component {
       weather: '',
       temp: 0,
       selected: 'Run',
+      timestamp: null
     }
   }
 
@@ -44,6 +45,7 @@ export default class StartActivity extends Component {
   }
 
   findCurrentLocation() {
+    date = new Date();
     navigator.geolocation.getCurrentPosition(
       position => {
         var latitude = position.coords.latitude;
@@ -63,7 +65,8 @@ export default class StartActivity extends Component {
                   longitudeDelta: 0.0221,
                 },
                 weather: weather,
-                temp: temp
+                temp: temp,
+                timestamp: date,
               }
             });
           }).catch(error => {

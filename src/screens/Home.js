@@ -11,6 +11,7 @@ import { Platform, StyleSheet, View, Image } from 'react-native';
 import { Button, Text, Body, Container, Content, Card, CardItem } from 'native-base';
 
 temp = [{
+  id: 654,
   distance: 624.1812041652864,
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
@@ -28,8 +29,10 @@ temp = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
   tempature: 66,
+  timestamp: new Date('Sat Apr 20 2019 12:34:58 GMT-0600 (Mountain Daylight Time)')
 },
 {
+  id: 987,
   distance: 623.1812041652864,
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
@@ -47,8 +50,10 @@ temp = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
   tempature: 65,
+  timestamp: new Date('Sat Apr 20 2019 12:38:21 GMT-0600 (Mountain Daylight Time)')
 },
 {
+  id: 321,
   distance: 622.1812041652864,
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
@@ -66,6 +71,7 @@ temp = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
   tempature: 70,
+  timestamp: new Date('Sat Apr 20 2019 10:34:58 GMT-0600 (Mountain Daylight Time)')
 }]
 
 export default class HistoryDetail extends Component {
@@ -177,7 +183,7 @@ export default class HistoryDetail extends Component {
             </CardItem>
           </Card>
           <Text style={styles.welcome}>Home</Text>
-          <Button onPress={() => this.props.navigation.navigate('HistoryDetail', {data:[temp]})}><Text>Go to History Detail</Text></Button>
+          <Button onPress={() => this.props.navigation.navigate('HistoryDetail', {data:this.state.activities[1]})}><Text>Go to History Detail</Text></Button>
           <Button onPress={() => this.props.navigation.navigate('TakePhoto')}><Text>Take Photo</Text></Button>
         </Content>
       </Container>

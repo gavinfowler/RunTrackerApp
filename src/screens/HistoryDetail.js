@@ -20,30 +20,14 @@ export default class AfterActivity extends Component {
     super(props);
 
     this.state = {
-      id:136,
-      distance: 0,
-      latitude: 0,
-      longitude: 0,
-      history: [],
-      pace: 0,
-      type: 'Run',
-      active: true,
-      buttonText: 'Pause',
-      timer: 0,
-      feeling: '',
-      weather: '',
-      newWeather: '',
-      photo: '',
-      tempature: 0,
-      isColdest: true,
-      isLongest: true,
+      activity: {}
     }
   }
 
   secondsToFormat() {
-    hours = (Math.floor(this.state.timer / 3600)).toString();
-    minutes = (Math.floor(this.state.timer / 60)).toString();
-    seconds = (this.state.timer % 60).toString();
+    hours = (Math.floor(this.state.activity.timer / 3600)).toString();
+    minutes = (Math.floor(this.state.activity.timer / 60)).toString();
+    seconds = (this.state.activity.timer % 60).toString();
     if (hours.length == 1)
       hours = '0' + hours;
     if (minutes.length == 1)
@@ -56,16 +40,16 @@ export default class AfterActivity extends Component {
   componentWillMount() {
     temp = this.props.navigation.getParam('data');
     // console.log(temp);
-    this.setState(temp[0])
+    this.setState({activity: temp})
   }
 
   checkRewards(){
     response = ''
-    if(this.state.isColdest && this.state.isLongest)
+    if(this.state.activity.isColdest && this.state.activity.isLongest)
       response = 'This is the coldest time that you have exercised \n This is the longest distance that you have gone'
-    else if(this.state.isColdest)
+    else if(this.state.activity.isColdest)
       response = response + 'This is the coldest time that you have exercised'
-    else if(this.state.isLongest)
+    else if(this.state.activity.isLongest)
       response = response + 'This is the longest distance that you have gone'
     return(<Text>{response}</Text>)
   }
@@ -77,8 +61,8 @@ export default class AfterActivity extends Component {
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
+            latitude: this.state.activity.latitude,
+            longitude: this.state.activity.longitude,
             latitudeDelta: 0.0222,
             longitudeDelta: 0.0121
           }}
@@ -86,8 +70,8 @@ export default class AfterActivity extends Component {
         >
           <Marker
             coordinate={{
-              latitude: this.state.latitude,
-              longitude: this.state.longitude
+              latitude: this.state.activity.latitude,
+              longitude: this.state.activity.longitude
             }}
           >
             <Callout>
@@ -97,25 +81,26 @@ export default class AfterActivity extends Component {
             </Callout>
           </Marker>
           <Polyline
-            coordinates={this.state.history}
+            coordinates={this.state.activity.history}
             strokeWidth={3}
           />
         </MapView>
         <Content style={{ top: (height / 2) - 75, width: '100%' }}>
           <View style={{ alignItems: 'center' }}>
-            <Text>Activity Type: {this.state.type}</Text>
-            <Text>How you felt: '{this.state.feeling}'</Text>
+            <Text>Activity Type: {this.state.activity.type}</Text>
+            <Text>Activity date: {(this.state.activity.timestamp).toLocaleDateString("en-US")}</Text>
+            <Text>How you felt: '{this.state.activity.feeling}'</Text>
             <Text>Duration: {this.secondsToFormat()} seconds</Text>
-            <Text>Distance: {Math.floor(this.state.distance)} meters</Text>
-            <Text>Pace: {Math.floor(this.state.pace)} meters/second</Text>
-            <Text>Weather begin: {this.state.weather}</Text>
-            <Text>Weather end: {this.state.newWeather}</Text>
-            <Text>Tempature: {this.state.tempature} °F</Text>
+            <Text>Distance: {Math.floor(this.state.activity.distance)} meters</Text>
+            <Text>Pace: {Math.floor(this.state.activity.pace)} meters/second</Text>
+            <Text>Weather begin: {this.state.activity.weather}</Text>
+            <Text>Weather end: {this.state.activity.newWeather}</Text>
+            <Text>Tempature: {this.state.activity.tempature} °F</Text>
             <Text>Rewards:</Text>
             {this.checkRewards()}
             <Image source={{ uri:'file:///data/user/0/com.finalproject1/cache/Camera/6f0f332b-5bb8-4f7f-89e1-9065e483f7e6.jpg'}} />
           </View>
-          <Button danger block onPress={() => { this.props.navigation.navigate('Home', {delete: this.state.id}) }}>
+          <Button danger block onPress={() => { this.props.navigation.navigate('Home', {delete: this.state.activity.id}) }}>
             <Text>
               Delete
             </Text>
