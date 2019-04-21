@@ -110,7 +110,7 @@ export default class StartActivity extends Component {
           </Marker>
         </MapView>
         <Content style={{ top: (height / 2) - 50, width: '100%', }}>
-            <Text style={{alignSelf:'center'}}>Pick a type of activity</Text>
+            <Text style={{alignSelf:'center', fontWeight: 'bold'}}>Pick a type of activity</Text>
             <PickerWI setValue={(value) => { this.getValue(value) }} />
             <Text style={{alignSelf:'center'}}>{'\n'}Current Weather: {this.state.weather}</Text>
             <Text style={{alignSelf:'center'}}>{'\n'}Current Tempature: {this.state.temp} °F{'\n'}</Text>

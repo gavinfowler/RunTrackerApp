@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, View, Dimensions, Image } from 'react-native';
+import { Platform, StyleSheet, View, Dimensions, Image, ScrollView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker, Polyline, Polygon } from 'react-native-maps';
 import { Card, CardItem, Content, Container, Text, Button, Item, Input, Label, Form } from 'native-base';
 
@@ -40,18 +40,18 @@ export default class AfterActivity extends Component {
   componentWillMount() {
     temp = this.props.navigation.getParam('data');
     // console.log(temp);
-    this.setState({activity: temp})
+    this.setState({ activity: temp })
   }
 
-  checkRewards(){
+  checkRewards() {
     response = ''
-    if(this.state.activity.isColdest && this.state.activity.isLongest)
+    if (this.state.activity.isColdest && this.state.activity.isLongest)
       response = 'This is the coldest time that you have exercised \n This is the longest distance that you have gone'
-    else if(this.state.activity.isColdest)
+    else if (this.state.activity.isColdest)
       response = response + 'This is the coldest time that you have exercised'
-    else if(this.state.activity.isLongest)
+    else if (this.state.activity.isLongest)
       response = response + 'This is the longest distance that you have gone'
-    return(<Text>{response}</Text>)
+    return (<Text>{response}</Text>)
   }
 
   render() {
@@ -86,21 +86,32 @@ export default class AfterActivity extends Component {
           />
         </MapView>
         <Content style={{ top: (height / 2) - 75, width: '100%' }}>
-          <View style={{ alignItems: 'center' }}>
-            <Text>Activity Type: {this.state.activity.type}</Text>
-            <Text>Activity date: {(this.state.activity.timestamp).toLocaleDateString("en-US")}</Text>
-            <Text>How you felt: '{this.state.activity.feeling}'</Text>
-            <Text>Duration: {this.secondsToFormat()} seconds</Text>
-            <Text>Distance: {Math.floor(this.state.activity.distance)} meters</Text>
-            <Text>Pace: {Math.floor(this.state.activity.pace)} meters/second</Text>
-            <Text>Weather begin: {this.state.activity.weather}</Text>
-            <Text>Weather end: {this.state.activity.newWeather}</Text>
-            <Text>Tempature: {this.state.activity.tempature} °F</Text>
-            <Text>Rewards:</Text>
+          <ScrollView style={{ flex:1, height: 300}} contentContainerStyle={{alignItems:'center'}}>
+            
+            <Text style={styles.bold}>Activity Type: </Text>
+            <Text>{this.state.activity.type}</Text>
+            <Text style={styles.bold}>Activity date: </Text>
+            <Text>{(this.state.activity.timestamp).toLocaleDateString("en-US")}</Text>
+            <Text style={styles.bold}>How you felt: </Text>
+            <Text>'{this.state.activity.feeling}'</Text>
+            <Text style={styles.bold}>Duration: </Text>
+            <Text>{this.secondsToFormat()}</Text>
+            <Text style={styles.bold}>Distance: </Text>
+            <Text>{Math.floor(this.state.activity.distance)} meters</Text>
+            <Text style={styles.bold}>Pace: </Text>
+            <Text>{Math.floor(this.state.activity.pace)} meters/second</Text>
+            <Text style={styles.bold}>Weather begin: </Text>
+            <Text>{this.state.activity.weather}</Text>
+            <Text style={styles.bold}>Weather end: </Text>
+            <Text>{this.state.activity.newWeather}</Text>
+            <Text style={styles.bold}>Tempature: </Text>
+            <Text>{this.state.activity.tempature} °F</Text>
+            <Text style={styles.bold}>Rewards: </Text>
             {this.checkRewards()}
-            <Image source={{ uri:'file:///data/user/0/com.finalproject1/cache/Camera/6f0f332b-5bb8-4f7f-89e1-9065e483f7e6.jpg'}} />
-          </View>
-          <Button danger block onPress={() => { this.props.navigation.navigate('Home', {delete: this.state.activity.id}) }}>
+
+            <Image source={{ uri: 'file:///data/user/0/com.finalproject1/cache/Camera/6f0f332b-5bb8-4f7f-89e1-9065e483f7e6.jpg' }} />
+          </ScrollView>
+          <Button danger block style={{ paddingTop:10 }} onPress={() => { this.props.navigation.navigate('Home', { delete: this.state.activity.id }) }}>
             <Text>
               Delete
             </Text>
@@ -112,6 +123,9 @@ export default class AfterActivity extends Component {
 }
 
 const styles = StyleSheet.create({
+  bold: {
+    fontWeight: 'bold'
+  },
   other: {
     position: 'absolute',
     top: height / 2,

@@ -24,7 +24,7 @@ export default class PickerWithIcon extends Component {
         <Picker
           mode="dropdown"
           selectedValue={this.state.selected}
-          style={{width:'50%', alignSelf:'center'}}
+          style={{width:'50%', alignSelf:'center', borderColor:'black', borderRadius:2}}
           onValueChange={(itemValue) => {
             this.onValueChange.bind(this);
             this.setState({ selected: itemValue },

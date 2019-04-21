@@ -26,6 +26,10 @@ var colors = {
 }
 
 export default class AfterActivity extends Component {
+  static navigationOptions = {
+    title: 'Finish Activity'
+  }
+
   constructor(props) {
     super(props);
 

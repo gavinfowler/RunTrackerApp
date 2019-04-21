@@ -1,28 +1,55 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Container, Button, Text, Header } from 'native-base';
 
 
 export default class Rewards extends Component {
-  constructor(props){
+  static navigationOptions = {
+    title: 'History'
+  }
+
+  constructor(props) {
     super(props);
     this.state = {
       activities: []
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     temp = this.props.navigation.getParam('state');
-    this.setState({activities:temp});
+    this.setState({ activities: temp });
     console.log(temp);
   }
 
-    render() {
-        return (
-            <View>
-              <Text>
-                History
-              </Text>
-            </View>
-        );
-    }
+  render() {
+    return (
+      <Container>
+        <Text style={{ fontSize: 20, textAlign: 'center' }}>
+          View by:
+          </Text>
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'space-evenly'
+        }}>
+
+          <Button block style={{height:'25%'}}>
+            <Text>
+              Type
+          </Text>
+          </Button>
+          <Button block style={{height:'25%'}}>
+            <Text>
+              Sorted
+          </Text>
+          </Button>
+          <Button block style={{height:'25%'}}>
+            <Text>
+              Range
+          </Text>
+          </Button>
+        </View>
+      </Container>
+    );
+  }
 }

@@ -10,14 +10,14 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Image } from 'react-native';
 import { Button, Text, Body, Container, Content, Card, CardItem } from 'native-base';
 
-temp = [{
+dummyData = [{
   id: 654,
   distance: 624.1812041652864,
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
   history: [
-    {latitude: 41.7418, longitude: -111.823},
-    {latitude: 41.7428, longitude: -111.833}
+    { latitude: 41.7418, longitude: -111.823 },
+    { latitude: 41.7428, longitude: -111.833 }
   ],
   pace: 13.569156612288836,
   type: 'Run',
@@ -27,7 +27,7 @@ temp = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
   tempature: 66,
   timestamp: new Date('Sat Apr 20 2019 12:34:58 GMT-0600 (Mountain Daylight Time)')
 },
@@ -37,8 +37,8 @@ temp = [{
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
   history: [
-    {latitude: 41.7418, longitude: -111.823},
-    {latitude: 41.7428, longitude: -111.833}
+    { latitude: 41.7418, longitude: -111.823 },
+    { latitude: 41.7428, longitude: -111.833 }
   ],
   pace: 13.569156612288836,
   type: 'Run',
@@ -48,7 +48,7 @@ temp = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
   tempature: 65,
   timestamp: new Date('Sat Apr 20 2019 12:38:21 GMT-0600 (Mountain Daylight Time)')
 },
@@ -58,8 +58,8 @@ temp = [{
   latitude: 41.74886171998654,
   longitude: -111.81907135024404,
   history: [
-    {latitude: 41.7418, longitude: -111.823},
-    {latitude: 41.7428, longitude: -111.833}
+    { latitude: 41.7418, longitude: -111.823 },
+    { latitude: 41.7428, longitude: -111.833 }
   ],
   pace: 13.569156612288836,
   type: 'Run',
@@ -69,7 +69,7 @@ temp = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg', 
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
   tempature: 70,
   timestamp: new Date('Sat Apr 20 2019 10:34:58 GMT-0600 (Mountain Daylight Time)')
 }]
@@ -83,7 +83,7 @@ export default class HistoryDetail extends Component {
     super(props);
 
     this.state = {
-      activities: temp
+      activities: dummyData
     }
   }
 
@@ -95,36 +95,36 @@ export default class HistoryDetail extends Component {
       activities = this.state.activities;
 
       if (this.props.navigation.getParam('state') !== undefined) {
-        temp = this.props.navigation.getParam('state');
-        temp['isColdest'] = false;
-        temp['isLongest'] = false;
-        temp['id'] = Math.floor((Math.random() * 1000) + 1);
-        activities.push(temp);
-        this.setState({ activities: activities }, () => {this.setRewards();console.log(this.state);});
+        NewState = this.props.navigation.getParam('state');
+        NewState['isColdest'] = false;
+        NewState['isLongest'] = false;
+        NewState['id'] = Math.floor((Math.random() * 1000) + 1);
+        activities.push(NewState);
+        this.setState({ activities: activities }, () => { this.setRewards(); console.log(this.state); });
       }
 
-      if (this.props.navigation.getParam('delete') !== undefined){
+      if (this.props.navigation.getParam('delete') !== undefined) {
         id = this.props.navigation.getParam('delete');
-        for(i=0;i<=this.state.activities.length - 1; i++){
-          if(activities[i].id == id){
+        for (i = 0; i <= this.state.activities.length - 1; i++) {
+          if (activities[i].id == id) {
             activities.splice(i, 1);
-            this.setState({activities:activities})
+            this.setState({ activities: activities })
           }
         }
       }
     })
   }
 
-  setRewards(){
-    if(this.state.activities.length > 0){
-      for(i in this.state.activities){
+  setRewards() {
+    if (this.state.activities.length > 0) {
+      for (i in this.state.activities) {
         i.isColdest = false;
       }
       this.state.activities.sort((a, b) => {
         return a.tempature - b.tempature;
       })
       this.state.activities[0]['isColdest'] = true
-      for(i in this.state.activities){
+      for (i in this.state.activities) {
         i.isLongest = false;
       }
       this.state.activities.sort((a, b) => {
@@ -134,7 +134,7 @@ export default class HistoryDetail extends Component {
     }
   }
 
-  deleteActivity(index){
+  deleteActivity(index) {
 
   }
 
@@ -166,7 +166,7 @@ export default class HistoryDetail extends Component {
               </Text>
               </Body>
             </CardItem>
-            <CardItem cardBody button onPress={() => this.props.navigation.navigate('History', {state:this.state})}>
+            <CardItem cardBody button onPress={() => this.props.navigation.navigate('History', { state: this.state })}>
               <Image source={require('../../images/history.jpg')} style={{ height: 140, width: null, flex: 1 }} />
             </CardItem>
           </Card>
@@ -178,13 +178,10 @@ export default class HistoryDetail extends Component {
               </Text>
               </Body>
             </CardItem>
-            <CardItem cardBody button onPress={() => this.props.navigation.navigate('Rewards')}>
+            <CardItem cardBody button onPress={() => this.props.navigation.navigate('Rewards', { state: this.state })}>
               <Image source={require('../../images/rewards.jpg')} style={{ height: 140, width: null, flex: 1 }} />
             </CardItem>
           </Card>
-          <Text style={styles.welcome}>Home</Text>
-          <Button onPress={() => this.props.navigation.navigate('HistoryDetail', {data:this.state.activities[1]})}><Text>Go to History Detail</Text></Button>
-          <Button onPress={() => this.props.navigation.navigate('TakePhoto')}><Text>Take Photo</Text></Button>
         </Content>
       </Container>
     );

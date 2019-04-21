@@ -8,6 +8,10 @@ import { tsImportEqualsDeclaration } from '@babel/types';
 const { width, height } = Dimensions.get('window');
 
 export default class TakePhoto extends Component {
+    static navigationOptions = {
+        title: 'Camera'
+      }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -17,7 +21,6 @@ export default class TakePhoto extends Component {
     }
 
     componentDidMount() {
-        console.log('ca;;ed')
         requestCameraRollPermission();
     }
 
@@ -34,18 +37,18 @@ export default class TakePhoto extends Component {
                 />
                 <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
                     <Button light onPress={() => this.takePicture()} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> Snap </Text>
+                        <Text style={{ fontSize: 14 }}>Take Picture</Text>
                     </Button>
                     <Button light onPress={() => this.toggleType()} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> Flip </Text>
+                        <Text style={{ fontSize: 14 }}>Flip Camera</Text>
                     </Button>
                 </View>
                 <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
                     <Button success onPress={() => this.props.navigation.navigate('AfterActivity', { photo: this.state.photo })} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> Save </Text>
+                        <Text style={{ fontSize: 14 }}>Save to activity</Text>
                     </Button>
                     <Button danger onPress={() => this.props.navigation.navigate('AfterActivity')} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> Cancel </Text>
+                        <Text style={{ fontSize: 14 }}>Cancel</Text>
                     </Button>
                 </View>
             </View>
@@ -61,13 +64,14 @@ export default class TakePhoto extends Component {
     }
 
     takePicture() {
+        alert('Picture Taken');
         if (this.camera) {
             const options = { quality: 0.5, base64: true };
             this.camera.takePictureAsync(options)
                 .then(result => {
                     CameraRoll.saveToCameraRoll(result.uri)
                     .then(this.setState({ photo: result.uri },()=>{
-                        console.log(result)
+                        console.log(result);
                     }));
                 })
                 .catch(error => console.log('error:', error));
