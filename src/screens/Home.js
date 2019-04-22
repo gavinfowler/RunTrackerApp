@@ -41,7 +41,7 @@ dummyData = [{
     { latitude: 41.7428, longitude: -111.833 }
   ],
   pace: 13.569156612288836,
-  type: 'Run',
+  type: 'Jog',
   active: true,
   buttonText: 'Pause',
   timer: 47,
@@ -62,7 +62,7 @@ dummyData = [{
     { latitude: 41.7428, longitude: -111.833 }
   ],
   pace: 13.569156612288836,
-  type: 'Run',
+  type: 'Walk',
   active: true,
   buttonText: 'Pause',
   timer: 47,
@@ -91,7 +91,6 @@ export default class HistoryDetail extends Component {
     this.setRewards();
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", () => {
-      console.log('home focused');
       activities = this.state.activities;
 
       if (this.props.navigation.getParam('state') !== undefined) {

@@ -9,6 +9,7 @@ import TakePhoto from './src/screens/TakePhoto';
 import Rewards from './src/screens/Rewards';
 import History from './src/screens/History';
 import HistoryDetail from './src/screens/HistoryDetail';
+import TypeHistory from './src/screens/TypeHistory'
 
 
 export default class App extends Component {
@@ -28,7 +29,8 @@ const Root = createStackNavigator(
         TakePhoto: TakePhoto,
         Rewards: Rewards,
         History: History,
-        HistoryDetail: HistoryDetail
+        HistoryDetail: HistoryDetail,
+        TypeHistory: TypeHistory
     },
     {
         initialRouteName: 'Home'

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Image } from 'react-native';
 import { Button, Text, Body, Container, Content, Card, CardItem } from 'native-base';
 
-export default class HistoryDetail extends Component {
+export default class Rewards extends Component {
   static navigationOptions = {
     title: 'Rewards'
   }

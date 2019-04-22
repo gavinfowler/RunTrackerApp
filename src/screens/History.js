@@ -18,7 +18,6 @@ export default class Rewards extends Component {
   componentWillMount() {
     temp = this.props.navigation.getParam('state');
     this.setState({ activities: temp });
-    console.log(temp);
   }
 
   render() {
@@ -33,7 +32,7 @@ export default class Rewards extends Component {
           justifyContent: 'space-evenly'
         }}>
 
-          <Button block style={{height:'25%'}}>
+          <Button block style={{height:'25%'}} onPress={()=>{this.props.navigation.navigate('TypeHistory', {activities:this.state.activities})}}>
             <Text>
               Type
           </Text>

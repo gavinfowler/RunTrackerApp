@@ -15,7 +15,7 @@ import WeatherService from '../api/weather.service';
 
 const { width, height } = Dimensions.get('window');
 
-export default class AfterActivity extends Component {
+export default class HistoryDetail extends Component {
   constructor(props) {
     super(props);
 
