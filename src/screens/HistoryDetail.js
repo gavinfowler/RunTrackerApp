@@ -86,7 +86,7 @@ export default class HistoryDetail extends Component {
           />
         </MapView>
         <Content style={{ top: (height / 2) - 75, width: '100%' }}>
-          <ScrollView style={{ flex:1, height: 300}} contentContainerStyle={{alignItems:'center'}}>
+          <ScrollView style={{ flex:1, height: 270}} contentContainerStyle={{alignItems:'center'}}>
             
             <Text style={styles.bold}>Activity Type: </Text>
             <Text>{this.state.activity.type}</Text>
@@ -111,6 +111,7 @@ export default class HistoryDetail extends Component {
 
             <Image source={{ uri: 'file:///data/user/0/com.finalproject1/cache/Camera/6f0f332b-5bb8-4f7f-89e1-9065e483f7e6.jpg' }} />
           </ScrollView>
+          <Text></Text>
           <Button danger block style={{ paddingTop:10 }} onPress={() => { this.props.navigation.navigate('Home', { delete: this.state.activity.id }) }}>
             <Text>
               Delete

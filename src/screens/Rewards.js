@@ -80,7 +80,7 @@ export default class Rewards extends Component {
               </Text>
               </Body>
             </CardItem>
-            <CardItem cardBody button onPress={() => this.props.navigation.navigate('HistoryDetail', { data: this.state.longest })}>
+            <CardItem cardBody>
               <Image source={require('../../images/marathon.png')} style={{ height: 137, width: null, flex: 1 }} />
             </CardItem>
           </Card>
