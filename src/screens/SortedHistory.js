@@ -21,10 +21,7 @@ export default class SortedHistory extends Component {
 
   getValue(value) {
     newOrder = this.state.activities.slice();
-    console.log('----------------')
-    console.log(newOrder)
     sortedBy = value;
-    console.log(sortedBy)
     if (sortedBy == 'Duration') {
       newOrder.sort((a, b) => {
         return (b.timer - a.timer)
@@ -38,8 +35,6 @@ export default class SortedHistory extends Component {
         return (b.timestamp - a.timestamp)
       })
     }
-    console.log(newOrder);
-    console.log('----------------')
 
     this.setState({ sortedBy: value, activities: [] }, () => this.setState({activities:newOrder}));
   }

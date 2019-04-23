@@ -42,7 +42,7 @@ export default class Rewards extends Component {
               Sorted
           </Text>
           </Button>
-          <Button block style={{height:'25%'}}>
+          <Button block style={{height:'25%'}} onPress={()=>{this.props.navigation.navigate('RangeHistory', {activities:this.state.activities})}}>
             <Text>
               Range
           </Text>

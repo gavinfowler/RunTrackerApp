@@ -12,6 +12,7 @@ import HistoryDetail from './src/screens/HistoryDetail';
 import TypeHistory from './src/screens/TypeHistory';
 import SortedHistory from './src/screens/SortedHistory'
 import Temp from './src/screens/tempscreen';
+import RangeHistory from './src/screens/RangeHistory';
 
 
 export default class App extends Component {
@@ -34,6 +35,7 @@ const Root = createStackNavigator(
         HistoryDetail: HistoryDetail,
         TypeHistory: TypeHistory,
         SortedHistory: SortedHistory,
+        RangeHistory: RangeHistory,
         Temp: Temp
     },
     {

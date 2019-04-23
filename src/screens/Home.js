@@ -29,7 +29,7 @@ dummyData = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 66,
-  timestamp: new Date(2019, 4, 22)
+  timestamp: new Date(2019, 3, 22)
 },
 {
   id: 987,
@@ -50,7 +50,7 @@ dummyData = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 65,
-  timestamp: new Date(2019, 4, 15)
+  timestamp: new Date(2017, 3, 15)
 },
 {
   id: 321,
@@ -71,7 +71,49 @@ dummyData = [{
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 70,
-  timestamp: new Date(2019, 4, 18)
+  timestamp: new Date(2019, 1, 18)
+},
+{
+  id: 963,
+  distance: 622.1812041652864,
+  latitude: 41.74886171998654,
+  longitude: -111.81907135024404,
+  history: [
+    { latitude: 41.7418, longitude: -111.823 },
+    { latitude: 41.7428, longitude: -111.833 }
+  ],
+  pace: 120.569156612288836,
+  type: 'Walk',
+  active: true,
+  buttonText: 'Pause',
+  timer: 2913,
+  feeling: 'good',
+  weather: 'Haze',
+  newWeather: 'clear',
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
+  tempature: 30,
+  timestamp: new Date(2019, 3, 10)
+},
+{
+  id: 753,
+  distance: 622.1812041652864,
+  latitude: 41.74886171998654,
+  longitude: -111.81907135024404,
+  history: [
+    { latitude: 41.7418, longitude: -111.823 },
+    { latitude: 41.7428, longitude: -111.833 }
+  ],
+  pace: 110.569156612288836,
+  type: 'Walk',
+  active: true,
+  buttonText: 'Pause',
+  timer: 752,
+  feeling: 'good',
+  weather: 'Haze',
+  newWeather: 'clear',
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
+  tempature: 90,
+  timestamp: new Date(2019, 2, 22)
 }]
 
 export default class HistoryDetail extends Component {
@@ -120,7 +162,7 @@ export default class HistoryDetail extends Component {
         i.isColdest = false;
       }
       this.state.activities.sort((a, b) => {
-        return a.tempature - b.tempature;
+        return b.tempature - a.tempature;
       })
       this.state.activities[0]['isColdest'] = true
       for (i in this.state.activities) {
