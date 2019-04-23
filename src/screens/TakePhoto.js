@@ -40,14 +40,6 @@ export default class TakePhoto extends Component {
                         <Text style={{ fontSize: 14 }}>Flip Camera</Text>
                     </Button>
                 </View>
-                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                    <Button success onPress={() => this.props.navigation.navigate('AfterActivity', { photo: this.state.photo })} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}>Save to activity</Text>
-                    </Button>
-                    <Button danger onPress={() => this.props.navigation.navigate('Temp', { photo: this.state.photo })} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}>Cancel</Text>
-                    </Button>
-                </View>
             </View>
         );
     }
@@ -61,7 +53,6 @@ export default class TakePhoto extends Component {
     }
 
     takePicture() {
-        alert('Picture Taken');
         if (this.camera) {
             const options = { quality: 0.5, base64: true };
             this.camera.takePictureAsync(options)
@@ -69,6 +60,7 @@ export default class TakePhoto extends Component {
                     CameraRoll.saveToCameraRoll(result.uri)
                     .then(this.setState({ photo: result.uri },()=>{
                         console.log(result);
+                        this.props.navigation.navigate('Temp', {photo:this.state.photo})
                     }));
                 })
                 .catch(error => console.log('error:', error));

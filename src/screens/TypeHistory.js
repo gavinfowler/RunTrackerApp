@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, ScrollView } from 'react-native'
 import { View, Text, Card, Container } from "native-base";
 
 import HistoryCard from '../components/HistoryCard';
@@ -51,7 +51,9 @@ export default class TypeHistory extends Component {
           Select a Type
         </Text>
         <TypePicker setValue={(value) => { this.getValue(value) }}/>
+        <ScrollView>
         {this.createCards()}
+        </ScrollView>
       </Container>
     )
   }
