@@ -18,6 +18,7 @@ export default class RangeHistory extends Component {
     super(props)
     this.state = {
       activities: this.props.navigation.getParam('activities').activities,
+      currActivities: [],
       sortedBy: 'Year',
     }
   }
@@ -52,7 +53,7 @@ export default class RangeHistory extends Component {
       return(b.timestamp - a.timestamp);
     })
 
-    this.setState({ sortedBy: value, activities: [] }, () => this.setState({activities:newOrder}));
+    this.setState({ sortedBy: value, currActivities: [] }, () => this.setState({currActivities:newOrder}));
   }
 
   componentWillMount() {
@@ -78,7 +79,7 @@ export default class RangeHistory extends Component {
         <RangePicker setValue={(value) => { this.getValue(value) }} />
         <FlatList 
           style={{height:'100%'}}
-          data={this.state.activities}
+          data={this.state.currActivities}
           renderItem={(item)=>this._renderItem(item)}
           keyExtractor={this._keyExtractor}
         />
