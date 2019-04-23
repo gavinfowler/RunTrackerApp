@@ -11,7 +11,7 @@ import { Platform, StyleSheet, View, Dimensions, Image, ScrollView } from 'react
 import MapView, { PROVIDER_GOOGLE, Callout, Marker, Polyline, Polygon } from 'react-native-maps';
 import { Card, CardItem, Content, Container, Text, Button, Item, Input, Label, Form } from 'native-base';
 
-import WeatherService from '../api/weather.service';
+import WeatherService from '../api/weather.service';;
 
 const { width, height } = Dimensions.get('window');
 
@@ -45,13 +45,10 @@ export default class HistoryDetail extends Component {
 
   checkRewards() {
     response = ''
-    if (this.state.activity.isColdest && this.state.activity.isLongest)
-      response = 'This is the coldest time that you have exercised \n This is the longest distance that you have gone'
-    else if (this.state.activity.isColdest)
-      response = response + 'This is the coldest time that you have exercised'
-    else if (this.state.activity.isLongest)
-      response = response + 'This is the longest distance that you have gone'
-    return (<Text>{response}</Text>)
+    if (this.state.activity.isColdest)
+      return (<Text>This is the coldest time that you have exercised</Text>)
+    else
+      return (<Text>None</Text>)
   }
 
   render() {
@@ -108,8 +105,10 @@ export default class HistoryDetail extends Component {
             <Text>{this.state.activity.tempature} °F</Text>
             <Text style={styles.bold}>Rewards: </Text>
             {this.checkRewards()}
-
-            <Image source={{ uri: 'file:///data/user/0/com.finalproject1/cache/Camera/6f0f332b-5bb8-4f7f-89e1-9065e483f7e6.jpg' }} />
+            <Text style={styles.bold}>Picture: </Text>
+            <View style={{transform:[{rotate: '90 deg'}]}}>
+            <Image style={{width: 270,height:320}} source={{ uri: this.state.activity.photo }} />
+            </View>
           </ScrollView>
           <Text></Text>
           <Button danger block style={{ paddingTop:10 }} onPress={() => { this.props.navigation.navigate('Home', { delete: this.state.activity.id }) }}>

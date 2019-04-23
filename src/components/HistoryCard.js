@@ -25,15 +25,15 @@ export default class HistoryCard extends Component {
 
   render() {
     return (
-      <Card style={{height:'15%', }}>
-        <CardItem style={{paddingLeft:10}} cardBody button onPress={() => this.props.navigate('HistoryDetail', { data: this.state.activity })}>
-          <Text>Activity Type: 
+      <Card style={{height:'15%',backgroundColor:'E6E6FA' }}>
+        <CardItem style={{paddingLeft:10,backgroundColor:'E6E6FA'}} cardBody button onPress={() => this.props.navigate('HistoryDetail', { data: this.state.activity })}>
+          <Text>Activity Type: {' '}
           {this.state.activity.type}{'\n'}
-          Activity date: 
+          Activity date: {' '}
           {(this.state.activity.timestamp).toLocaleDateString("en-US")}{'\n'}
-          Duration: 
+          Duration: {' '}
           {this.secondsToFormat()}{'\n'}
-          Weather: 
+          Weather: {' '}
           {this.state.activity.weather}{'\n'}</Text>
         </CardItem>
       </Card>

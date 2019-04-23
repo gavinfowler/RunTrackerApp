@@ -3,7 +3,6 @@ import { CameraRoll, Platform, StyleSheet, View, Dimensions } from 'react-native
 import { RNCamera } from 'react-native-camera';
 import { PermissionsAndroid } from 'react-native';
 import { Button, Text } from 'native-base';
-import { tsImportEqualsDeclaration } from '@babel/types';
 
 const { width, height } = Dimensions.get('window');
 
@@ -47,7 +46,7 @@ export default class TakePhoto extends Component {
                     <Button success onPress={() => this.props.navigation.navigate('AfterActivity', { photo: this.state.photo })} style={styles.capture}>
                         <Text style={{ fontSize: 14 }}>Save to activity</Text>
                     </Button>
-                    <Button danger onPress={() => this.props.navigation.navigate('AfterActivity')} style={styles.capture}>
+                    <Button danger onPress={() => this.props.navigation.navigate('Temp', { photo: this.state.photo })} style={styles.capture}>
                         <Text style={{ fontSize: 14 }}>Cancel</Text>
                     </Button>
                 </View>
@@ -92,11 +91,30 @@ async function requestCameraRollPermission() {
                 buttonPositive: 'Grant',
             },
         );
-        if (granted == PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can save pictures');
-        } else {
-            console.log('Camera roll access denied');
-        }
+        // if (granted == PermissionsAndroid.RESULTS.GRANTED) {
+        //     console.log('You can save pictures');
+        // } else {
+        //     console.log('Camera roll access denied');
+        // }
+    } catch (err) {
+        console.warn(err);
+    }
+    try {
+        const granted1 = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+            {
+                title: 'get Photos',
+                message:
+                    'This App needs access to your camera roll to get pictures',
+                buttonNegative: 'Deny',
+                buttonPositive: 'Grant',
+            },
+        );
+        // if (granted1 == PermissionsAndroid.RESULTS.GRANTED) {
+        //     console.log('You can get pictures');
+        // } else {
+        //     console.log('Camera roll access denied');
+        // }
     } catch (err) {
         console.warn(err);
     }

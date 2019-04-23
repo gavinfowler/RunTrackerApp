@@ -27,7 +27,7 @@ dummyData = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 66,
   timestamp: new Date('Sat Apr 20 2019 12:34:58 GMT-0600 (Mountain Daylight Time)')
 },
@@ -48,7 +48,7 @@ dummyData = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 65,
   timestamp: new Date('Sat Apr 20 2019 12:38:21 GMT-0600 (Mountain Daylight Time)')
 },
@@ -69,7 +69,7 @@ dummyData = [{
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
-  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/2e1dde3e-a38d-46c8-8938-6dd54a46a5d9.jpg',
+  photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 70,
   timestamp: new Date('Sat Apr 20 2019 10:34:58 GMT-0600 (Mountain Daylight Time)')
 }]
