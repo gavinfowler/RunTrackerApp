@@ -14,7 +14,6 @@ import SortedHistory from './src/screens/SortedHistory'
 import Temp from './src/screens/tempscreen';
 import RangeHistory from './src/screens/RangeHistory';
 
-
 export default class App extends Component {
     render() {
         return (

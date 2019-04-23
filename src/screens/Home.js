@@ -6,9 +6,9 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import { Platform, StyleSheet, View, Image } from 'react-native';
-import { Button, Text, Body, Container, Content, Card, CardItem } from 'native-base';
+import React, { Component } from 'react'; 
+import { StyleSheet, Image } from 'react-native';
+import { Text, Body, Container, Content, Card, CardItem } from 'native-base';
 
 dummyData = [{
   id: 654,

@@ -11,9 +11,7 @@ import { Platform, StyleSheet, View, Dimensions, } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, Marker, Polyline, Polygon } from 'react-native-maps';
 import { Card, CardItem, Content, Container, Text, Button, Item, Input, Label, Form } from 'native-base';
 
-import Map from '../components/map'
 import WeatherService from '../api/weather.service';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 

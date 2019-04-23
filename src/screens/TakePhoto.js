@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { CameraRoll, Platform, StyleSheet, View, Dimensions } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { PermissionsAndroid } from 'react-native';
-import { Button, Text } from 'native-base';
-
-const { width, height } = Dimensions.get('window');
+import { Button, Text } from 'native-base'
 
 export default class TakePhoto extends Component {
     static navigationOptions = {
