@@ -129,8 +129,6 @@ export default class HistoryDetail extends Component {
     }
   }
 
-  // TODO: fix last run reward
-
   componentWillMount() {
     this.setRewards();
     const { navigation } = this.props;

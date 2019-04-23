@@ -34,7 +34,7 @@ export default class Rewards extends Component {
       if (i.isColdest) {
         coldest = i
       }
-      if (i.timestamp < today) {
+      if (i.timestamp > today) {
         today = i.timestamp;
       }
     }
