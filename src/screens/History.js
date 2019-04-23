@@ -37,7 +37,7 @@ export default class Rewards extends Component {
               Type
           </Text>
           </Button>
-          <Button block style={{height:'25%'}}>
+          <Button block style={{height:'25%'}} onPress={()=>{this.props.navigation.navigate('SortedHistory', {activities:this.state.activities})}}>
             <Text>
               Sorted
           </Text>

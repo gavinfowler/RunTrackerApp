@@ -19,17 +19,17 @@ dummyData = [{
     { latitude: 41.7418, longitude: -111.823 },
     { latitude: 41.7428, longitude: -111.833 }
   ],
-  pace: 13.569156612288836,
+  pace: 132.569156612288836,
   type: 'Run',
   active: true,
   buttonText: 'Pause',
-  timer: 47,
+  timer: 3523,
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 66,
-  timestamp: new Date('Sat Apr 20 2019 12:34:58 GMT-0600 (Mountain Daylight Time)')
+  timestamp: new Date(2019, 4, 22)
 },
 {
   id: 987,
@@ -40,17 +40,17 @@ dummyData = [{
     { latitude: 41.7418, longitude: -111.823 },
     { latitude: 41.7428, longitude: -111.833 }
   ],
-  pace: 13.569156612288836,
+  pace: 131.569156612288836,
   type: 'Jog',
   active: true,
   buttonText: 'Pause',
-  timer: 47,
+  timer: 2150,
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 65,
-  timestamp: new Date('Sat Apr 20 2019 12:38:21 GMT-0600 (Mountain Daylight Time)')
+  timestamp: new Date(2019, 4, 15)
 },
 {
   id: 321,
@@ -61,17 +61,17 @@ dummyData = [{
     { latitude: 41.7418, longitude: -111.823 },
     { latitude: 41.7428, longitude: -111.833 }
   ],
-  pace: 13.569156612288836,
+  pace: 133.569156612288836,
   type: 'Walk',
   active: true,
   buttonText: 'Pause',
-  timer: 47,
+  timer: 1234,
   feeling: 'good',
   weather: 'Haze',
   newWeather: 'clear',
   photo: 'file:///data/user/0/com.finalproject1/cache/Camera/760cf6bf-a066-4047-b0db-ba402fab69a3.jpg',
   tempature: 70,
-  timestamp: new Date('Sat Apr 20 2019 10:34:58 GMT-0600 (Mountain Daylight Time)')
+  timestamp: new Date(2019, 4, 18)
 }]
 
 export default class HistoryDetail extends Component {

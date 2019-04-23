@@ -10,7 +10,8 @@ import Rewards from './src/screens/Rewards';
 import History from './src/screens/History';
 import HistoryDetail from './src/screens/HistoryDetail';
 import TypeHistory from './src/screens/TypeHistory';
-import Temp from './src/screens/tempscreen'
+import SortedHistory from './src/screens/SortedHistory'
+import Temp from './src/screens/tempscreen';
 
 
 export default class App extends Component {
@@ -32,6 +33,7 @@ const Root = createStackNavigator(
         History: History,
         HistoryDetail: HistoryDetail,
         TypeHistory: TypeHistory,
+        SortedHistory: SortedHistory,
         Temp: Temp
     },
     {
